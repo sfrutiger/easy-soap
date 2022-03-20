@@ -1,10 +1,11 @@
-const Patient = ({ patient, onSelect }) => {
-    return (
-        <div onClick={() => onSelect(patient.id)}>
-            <h4>{patient.lastName}, {patient.firstName}</h4>
-            <p>Date of Birth {patient.birthDate}</p>
-        </div>
-    )
-}
+const Patient = ({ patient, selectPatient }) => {
+  return (
+    <div onClick={() => selectPatient(patient.id)}>
+      <h4>
+        {patient.lastName}, {patient.firstName} {patient.birthDate}
+      </h4>
+    </div>
+  );
+};
 
-export default Patient
+export default Patient;

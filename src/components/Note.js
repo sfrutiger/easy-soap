@@ -1,17 +1,9 @@
-import { useState } from 'react'
-
-const Note = ({ note }) => {
-
-    const [openNote, setOpenNote] = useState(false);
-
-    const toggleNote = () => {
-        setOpenNote(!openNote)
-    }
-
+const Note = ({ note, selectNote, selectedNote, closeNote }) => {
     return (
         <div>
-            <h4 onClick={() => toggleNote()}>{note.date}</h4>
-            {openNote === false ? '' :
+            {selectedNote === note.id || selectedNote === '' ? <h4 onClick={() => selectNote(note.id)}>{note.date}</h4> : ''}
+            {selectedNote === note.id ? <button onClick={() => closeNote()}>Close</button> : ''}
+            {selectedNote === note.id ?
             <div>
                 <div>
                     <h5>Subjective</h5>
@@ -29,7 +21,7 @@ const Note = ({ note }) => {
                     <h5>Plan</h5>
                     <p>{note.plan}</p>
                 </div>
-            </div>}
+            </div> : ''}
         </div>
     )
 }
