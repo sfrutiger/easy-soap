@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import PatientList from "./components/PatientList";
 import NoteList from "./components/NoteList";
 import AddPatientForm from "./components/AddPatientForm";
+import AddNoteForm from "./components/AddNoteForm";
 
 function App() {
   const [patients, setPatients] = useState([
@@ -85,6 +86,27 @@ function App() {
     setPatients([...patients, newPatient]);
   };
 
+  //adding notes
+  const [addNote, setAddNote] = useState(false);
+
+  //open add patient form
+  const toggleAddNoteForm = () => {
+    setAddNote(!addNote);
+  };
+
+  //opened patient file
+  const selectedPatient = patients.find(
+    (patient) => patient.id === activePatient
+  );
+
+  //save new note
+  const saveNewNote = (note) => {
+    const id = Math.floor(Math.random() * 10000) + 1;
+    const oldNotes = selectedPatient.notes;
+    const addedNote = { id, ...note };
+    selectedPatient.notes = [...oldNotes, addedNote];
+  };
+
   return (
     <div className="App">
       <Header />
@@ -98,14 +120,26 @@ function App() {
           addPatient={addPatient}
         />
       )}
-      {activePatient === "" ? (
+      {activePatient === "" || addNote === true ? (
         ""
       ) : (
         <NoteList
           patients={patients}
           activePatient={activePatient}
           closePatient={closePatient}
+          toggleAddNoteForm={toggleAddNoteForm}
+          addNote={addNote}
         />
+      )}
+      {addNote === true ? (
+        <AddNoteForm
+          patients={patients}
+          activePatient={activePatient}
+          toggleAddNoteForm={toggleAddNoteForm}
+          saveNewNote={saveNewNote}
+        />
+      ) : (
+        ""
       )}
       {addPatient ? (
         <AddPatientForm
