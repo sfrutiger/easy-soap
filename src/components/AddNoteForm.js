@@ -33,61 +33,67 @@ const AddNoteForm = ({
   };
 
   return (
-    <div>
-      <h3>
-        {selectedPatient.lastName}, {selectedPatient.firstName}
-      </h3>
-      <form onSubmit={onSubmit}>
-        <div>
-          <label htmlFor="date">Encounter date</label>
-          <input
-            type="date"
-            name="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="subjective">Subjective</label>
-          <input
-            type="text"
-            name="subjective"
-            value={subjective}
-            onChange={(e) => setSubjective(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="objective">Objective</label>
-          <input
-            type="text"
-            name="objective"
-            value={objective}
-            onChange={(e) => setObjective(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="assessment">Assessment</label>
-          <input
-            type="text"
-            name="assessment"
-            value={assessment}
-            onChange={(e) => setAssessment(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="plan">Plan</label>
-          <input
-            type="text"
-            name="plan"
-            value={plan}
-            onChange={(e) => setPlan(e.target.value)}
-          ></input>
-        </div>
-        <div>
-          <input type="submit" value="Finalize note"></input>
-          <button onClick={() => toggleAddNoteForm()}>Cancel</button>
-        </div>
-      </form>
+    <div className="w-full flex justify-center mt-8">
+      <div className="border-2 p-2">
+        <h3 className="text-2xl border-b-2 inline">
+          {selectedPatient.lastName}, {selectedPatient.firstName}
+        </h3>
+        <form className="my-4" onSubmit={onSubmit}>
+          <div>
+            <label htmlFor="date">Encounter date</label>
+            <input
+              type="date"
+              name="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            ></input>
+          </div>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="subjective">Subjective</label>
+            <textarea
+              type="text"
+              name="subjective"
+              value={subjective}
+              onChange={(e) => setSubjective(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="objective">Objective</label>
+            <textarea
+              type="text"
+              name="objective"
+              value={objective}
+              onChange={(e) => setObjective(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="assessment">Assessment</label>
+            <textarea
+              type="text"
+              name="assessment"
+              value={assessment}
+              onChange={(e) => setAssessment(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="plan">Plan</label>
+            <textarea
+              type="text"
+              name="plan"
+              value={plan}
+              onChange={(e) => setPlan(e.target.value)}
+            ></textarea>
+          </div>
+          <div>
+            <input
+              className="submit-button"
+              type="submit"
+              value="Finalize note"
+            ></input>
+            <button onClick={() => toggleAddNoteForm()}>Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

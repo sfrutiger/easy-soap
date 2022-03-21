@@ -24,23 +24,34 @@ const NoteList = ({
   const patientNotes = selectedPatient.notes;
 
   return (
-    <div>
-      <button onClick={closePatient}>Return to patient list</button>
-      <h3>
-        {selectedPatient.lastName}, {selectedPatient.firstName}
-      </h3>
-      <button onClick={() => toggleAddNoteForm()}>Add note</button>
-      {selectedNote !== "" || patientNotes.length === 0 ? "" : <h4>Notes</h4>}
-      {patientNotes.length === 0 ? <h4>No notes to show</h4> : ""}
-      {patientNotes.map((note) => (
-        <Note
-          key={note.id}
-          note={note}
-          selectNote={selectNote}
-          selectedNote={selectedNote}
-          closeNote={closeNote}
-        />
-      ))}
+    <div className="w-full flex justify-center">
+      <div className="w-full max-w-5xl">
+        <div className="flex justify-between">
+          <button onClick={closePatient}>Return to patient list</button>
+          <button onClick={() => toggleAddNoteForm()}>Add note</button>
+        </div>
+        {selectedNote !== "" ? (
+          <button onClick={() => closeNote()}>Return to note list</button>
+        ) : (
+          ""
+        )}
+
+        <div className="my-2">
+          <h3 className="text-2xl border-b-2 inline">
+            {selectedPatient.lastName}, {selectedPatient.firstName}
+          </h3>
+        </div>
+        {patientNotes.length === 0 ? <h4>No notes to show</h4> : ""}
+        {patientNotes.map((note) => (
+          <Note
+            key={note.id}
+            note={note}
+            selectNote={selectNote}
+            selectedNote={selectedNote}
+            closeNote={closeNote}
+          />
+        ))}
+      </div>
     </div>
   );
 };

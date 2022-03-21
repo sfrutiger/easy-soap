@@ -1,1 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-gray-800;
+    @apply text-gray-200;
+    @apply m-4;
+  }
+  button {
+    @apply bg-gray-200;
+    @apply text-gray-800;
+    @apply px-2;
+    @apply my-[4px];
+    @apply h-[2em];
+    @apply w-[150px];
+    @apply sm:w-[200px];
+    @apply text-xs;
+    @apply sm:text-base;
+    @apply rounded;
+    @apply hover:bg-gray-300;
+  }
+  .submit-button {
+    @apply cursor-pointer;
+    @apply bg-gray-200;
+    @apply text-gray-800;
+    @apply px-2;
+    @apply ml-0;
+    @apply my-[4px];
+    @apply h-[2em];
+    @apply w-[150px];
+    @apply sm:w-[200px];
+    @apply text-xs;
+    @apply sm:text-base;
+    @apply rounded;
+    @apply hover:bg-gray-300;
+  }
+  .records {
+    @apply cursor-pointer;
+    @apply hover:text-gray-300;
+  }
+  .section-label {
+    @apply font-bold;
+    @apply border-b-[1px];
+    @apply inline;
+  }
+  input {
+    @apply bg-gray-200;
+    @apply text-gray-800;
+    @apply m-2;
+  }
+  textarea {
+    @apply bg-gray-200;
+    @apply text-gray-800;
+    @apply m-2;
+    @apply mx-0;
+  }
+}
