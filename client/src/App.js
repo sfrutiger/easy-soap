@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "./components/Header";
 import PatientList from "./components/PatientList";
 import NoteList from "./components/NoteList";
@@ -6,64 +7,21 @@ import AddPatientForm from "./components/AddPatientForm";
 import AddNoteForm from "./components/AddNoteForm";
 
 function App() {
-  const [patients, setPatients] = useState([
-    {
-      id: 1,
-      firstName: "Joe",
-      lastName: "Everyman",
-      birthDate: "1965-01-23",
-      notes: [
-        {
-          id: 1,
-          date: "2022-03-01",
-          subjective: "Patient complains of some bullshit.",
-          objective: "Lumbar ROM WNL and pain free.",
-          assessment: "Acute low back pain.",
-          plan: "Immediate hemicorporectomy.",
-        },
-        {
-          id: 2,
-          date: "2022-03-16",
-          subjective: "Patient 2 days post hemicorporectomy.",
-          objective:
-            'Pain of "20/10", surgical wound with no signs of infection.',
-          assessment: "Routine healing.",
-          plan: "Return for checkup in 3 days.",
-        },
-      ],
-    },
-    {
-      id: 2,
-      firstName: "Wanda",
-      lastName: "Whinygirl",
-      birthDate: "1936-07-02",
-      notes: [
-        {
-          id: 1,
-          date: "2022-03-02",
-          subjective: "Patient reports pain in foot after kicking a rat.",
-          objective: "Pain of 6/10. Normal R foot, no signs of acute injury.",
-          assessment: "Acute foot pain.",
-          plan: "Monitor and return if pain persists.",
-        },
-        {
-          id: 2,
-          date: "2022-03-03",
-          subjective: "Patient returns complaing of increased pain.",
-          objective: "L foot pain of 10/10.",
-          assessment: "Pain has migrated contralaterally.",
-          plan: "Have 3-7 cold beers and think about what lead me to this point in my life.",
-        },
-      ],
-    },
-  ]);
+  const [patients, setPatients] = useState([]);
+
+  //get patients from server
+  useEffect(() => {
+    axios.get("/api/patients").then((res) => {
+      setPatients(res.data);
+    });
+  }, []);
 
   //selection of patients
   const [activePatient, setActivePatient] = useState("");
 
   //select active patient
-  const selectPatient = (id) => {
-    setActivePatient(id);
+  const selectPatient = (_id) => {
+    setActivePatient(_id);
   };
 
   //close active patient
@@ -81,9 +39,15 @@ function App() {
 
   //save new patient information
   const saveNewPatient = (patient) => {
-    const id = Math.floor(Math.random() * 10000) + 1;
-    const newPatient = { id, ...patient };
-    setPatients([...patients, newPatient]);
+    axios
+      .post("/api/patients", {
+        lastName: patient.lastName,
+        firstName: patient.firstName,
+        birthDate: patient.birthDate,
+      })
+      .then((res) => {
+        setPatients(res.data);
+      });
   };
 
   //adding notes
@@ -95,17 +59,12 @@ function App() {
   };
 
   //opened patient file
-  const selectedPatient = patients.find(
-    (patient) => patient.id === activePatient
-  );
+  /* const selectedPatient = patients.find(
+    (patient) => patient._id === activePatient
+  ); */
 
   //save new note
-  const saveNewNote = (note) => {
-    const id = Math.floor(Math.random() * 10000) + 1;
-    const oldNotes = selectedPatient.notes;
-    const addedNote = { id, ...note };
-    selectedPatient.notes = [...oldNotes, addedNote];
-  };
+  const saveNewNote = (note) => {};
 
   return (
     <div className="App">

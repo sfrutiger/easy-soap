@@ -23,7 +23,6 @@ router.post("/", (req, res) => {
     firstName: req.body.firstName,
     birthDate: req.body.birthDate,
   });
-
   newPatient.save().then((patient) => res.json(patient));
 });
 

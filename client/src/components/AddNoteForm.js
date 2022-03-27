@@ -7,7 +7,7 @@ const AddNoteForm = ({
   patients,
 }) => {
   const selectedPatient = patients.find(
-    (patient) => patient.id === activePatient
+    (patient) => patient._id === activePatient
   );
 
   const [date, setDate] = useState("");

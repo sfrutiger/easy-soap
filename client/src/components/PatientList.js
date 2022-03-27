@@ -12,7 +12,7 @@ const PatientList = ({ patients, selectPatient, toggleAddPatientForm }) => {
         </div>
         {patients.map((patient) => (
           <Patient
-            key={patient.id}
+            key={patient._id}
             patient={patient}
             selectPatient={selectPatient}
           />

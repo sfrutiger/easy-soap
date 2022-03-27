@@ -15,6 +15,10 @@ const PatientSchema = new Schema({
     type: Date,
     required: true,
   },
+  notes: {
+    type: Array,
+    required: false,
+  },
 });
 
 module.exports = Patient = mongoose.model("patient", PatientSchema);

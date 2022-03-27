@@ -6,7 +6,6 @@ const NoteList = ({
   activePatient,
   closePatient,
   toggleAddNoteForm,
-  addNote,
 }) => {
   const [selectedNote, setSelectedNote] = useState("");
 
@@ -19,9 +18,10 @@ const NoteList = ({
   };
 
   const selectedPatient = patients.find(
-    (patient) => patient.id === activePatient
+    (patient) => patient._id === activePatient
   );
-  const patientNotes = selectedPatient.notes;
+
+  const patientNotes = selectedPatient.notes || [];
 
   return (
     <div className="w-full flex justify-center">
@@ -44,7 +44,7 @@ const NoteList = ({
         {patientNotes.length === 0 ? <h4>No notes to show</h4> : ""}
         {patientNotes.map((note) => (
           <Note
-            key={note.id}
+            key={note._id}
             note={note}
             selectNote={selectNote}
             selectedNote={selectedNote}
