@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// Patient model
+// Models
 const Patient = require("../../models/Patient");
 
 // @route  GET api/patients
@@ -33,6 +33,34 @@ router.delete("/:id", (req, res) => {
   Patient.findById(req.params.id)
     .then((patient) => patient.remove().then(() => res.json({ success: true })))
     .catch((err) => res.status(404).json({ success: false }));
+});
+
+// @route  POST api/patients/:id
+// @desc   Create a note for selected patient
+// @access Public
+router.patch("/:id", (req, res) => {
+  /*   const newNote = new Note({
+    date: req.body.date,
+    subjective: req.body.subjective,
+    objective: req.body.objective,
+    assessment: req.body.assessment,
+    plan: req.body.plan,
+  }); */
+  Patient.findOneAndUpdate(
+    { _id: req.params.id },
+    { firstName: req.body.firstName }
+    /* {
+      $push: {
+        notes: {
+          date: req.body.date,
+          subjective: req.body.subjective,
+          objective: req.body.objective,
+          assessment: req.body.assessment,
+          plan: req.body.plan,
+        },
+      },
+    } */
+  );
 });
 
 module.exports = router;

@@ -23,7 +23,14 @@ const AddNoteForm = ({
       alert("Add date of encounter");
       return;
     }
-    saveNewNote({ date, subjective, objective, assessment, plan });
+    saveNewNote({
+      selectedPatient,
+      date,
+      subjective,
+      objective,
+      assessment,
+      plan,
+    });
     setDate("");
     setSubjective("");
     setObjective("");

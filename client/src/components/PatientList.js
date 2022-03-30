@@ -1,6 +1,11 @@
 import Patient from "./Patient";
 
-const PatientList = ({ patients, selectPatient, toggleAddPatientForm }) => {
+const PatientList = ({
+  patients,
+  selectPatient,
+  deletePatient,
+  toggleAddPatientForm,
+}) => {
   return (
     <div className="w-full flex justify-center">
       <div className="w-full max-w-5xl">
@@ -15,6 +20,7 @@ const PatientList = ({ patients, selectPatient, toggleAddPatientForm }) => {
             key={patient._id}
             patient={patient}
             selectPatient={selectPatient}
+            deletePatient={deletePatient}
           />
         ))}
       </div>

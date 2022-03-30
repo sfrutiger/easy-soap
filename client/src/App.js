@@ -19,6 +19,7 @@ function App() {
     getPatients(patients);
   }, [patients]);
 
+  //
   //selection of patients
   const [activePatient, setActivePatient] = useState("");
 
@@ -32,7 +33,8 @@ function App() {
     setActivePatient("");
   };
 
-  //adding patients
+  //
+  //adding and deleting patients
   const [addPatient, setAddPatient] = useState(false);
 
   //open add patient form
@@ -49,12 +51,29 @@ function App() {
     });
   };
 
+  //delete patient
+  const deletePatient = (id) => {
+    axios.delete(`/api/patients/${id}`);
+  };
+
+  //
   //adding notes
   const [addNote, setAddNote] = useState(false);
 
-  //open add patient form
+  //open add note form
   const toggleAddNoteForm = () => {
     setAddNote(!addNote);
+  };
+
+  //save new note
+  const saveNewNote = (note) => {
+    axios.put(`/api/patients/${activePatient}`, {
+      date: note.date,
+      subjective: note.subjective,
+      objective: note.objective,
+      assessment: note.assessment,
+      plan: note.plan,
+    });
   };
 
   return (
@@ -66,6 +85,7 @@ function App() {
         <PatientList
           patients={patients}
           selectPatient={selectPatient}
+          deletePatient={deletePatient}
           toggleAddPatientForm={toggleAddPatientForm}
           addPatient={addPatient}
         />
@@ -86,6 +106,7 @@ function App() {
           patients={patients}
           activePatient={activePatient}
           toggleAddNoteForm={toggleAddNoteForm}
+          saveNewNote={saveNewNote}
         />
       ) : (
         ""
