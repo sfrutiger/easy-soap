@@ -35,32 +35,18 @@ router.delete("/:id", (req, res) => {
     .catch((err) => res.status(404).json({ success: false }));
 });
 
-// @route  POST api/patients/:id
-// @desc   Create a note for selected patient
+// @route  Patch api/patients/:id
+// @desc   Edit patient information, add notes
 // @access Public
-router.patch("/:id", (req, res) => {
-  /*   const newNote = new Note({
-    date: req.body.date,
-    subjective: req.body.subjective,
-    objective: req.body.objective,
-    assessment: req.body.assessment,
-    plan: req.body.plan,
-  }); */
-  Patient.findOneAndUpdate(
-    { _id: req.params.id },
-    { firstName: req.body.firstName }
-    /* {
-      $push: {
-        notes: {
-          date: req.body.date,
-          subjective: req.body.subjective,
-          objective: req.body.objective,
-          assessment: req.body.assessment,
-          plan: req.body.plan,
-        },
-      },
-    } */
-  );
+router.patch("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updates = req.body;
+    const result = await Patient.findByIdAndUpdate(id, updates);
+    res.send(result);
+  } catch (error) {
+    res.json({ success: false });
+  }
 });
 
 module.exports = router;

@@ -3,13 +3,13 @@ const Note = ({ note, selectNote, selectedNote, closeNote }) => {
     <div>
       <div>
         {selectedNote === "" ? (
-          <h4 className="records" onClick={() => selectNote(note.id)}>
+          <h4 className="records" onClick={() => selectNote(note._id)}>
             {note.date}
           </h4>
         ) : (
           ""
         )}
-        {selectedNote === note.id ? (
+        {selectedNote === note._id ? (
           <div className="w-full flex justify-center mt-4">
             <div className="border-2 p-2">
               <div className="my-2">

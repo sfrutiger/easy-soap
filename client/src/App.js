@@ -67,13 +67,18 @@ function App() {
 
   //save new note
   const saveNewNote = (note) => {
-    axios.put(`/api/patients/${activePatient}`, {
+    const newNote = {
       date: note.date,
       subjective: note.subjective,
       objective: note.objective,
       assessment: note.assessment,
       plan: note.plan,
+    };
+    const updatedNotes = [...note.selectedPatient.notes, newNote];
+    axios.patch(`/api/patients/${activePatient}`, {
+      notes: updatedNotes,
     });
+    console.log(updatedNotes);
   };
 
   return (
