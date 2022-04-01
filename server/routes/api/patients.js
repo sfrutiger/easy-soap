@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const auth = require("../../middleware/auth");
 
 // Models
 const Patient = require("../../models/Patient");
@@ -16,8 +17,8 @@ router.get("/", (req, res) => {
 
 // @route  POST api/patients
 // @desc   Create a patient
-// @access Public
-router.post("/", (req, res) => {
+// @access Private
+router.post("/", auth, (req, res) => {
   const newPatient = new Patient({
     lastName: req.body.lastName,
     firstName: req.body.firstName,
@@ -28,8 +29,8 @@ router.post("/", (req, res) => {
 
 // @route  DELETE api/patients/:id
 // @desc   Delete a patient
-// @access Public
-router.delete("/:id", (req, res) => {
+// @access Private
+router.delete("/:id", auth, (req, res) => {
   Patient.findById(req.params.id)
     .then((patient) => patient.remove().then(() => res.json({ success: true })))
     .catch((err) => res.status(404).json({ success: false }));
