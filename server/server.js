@@ -1,16 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-
-const patients = require("./routes/api/patients");
+const config = require("config");
 
 const app = express();
 
 //Bodyparser Middleware
-app.use(bodyParser.json());
+app.use(express.json());
 
 //DB Config
-const db = require("./config/keys").mongoURI;
+const db = config.get("mongoURI");
 
 //Connect to Mongo
 mongoose
@@ -19,7 +17,8 @@ mongoose
   .catch((err) => console.log(err));
 
 //Use Routes
-app.use("/api/patients", patients);
+app.use("/api/patients", require("./routes/api/patients"));
+app.use("/api/users", require("./routes/api/users"));
 
 const port = process.env.PORT || 5000;
 
