@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const PatientSchema = require("./Patient");
 
 //Create Schema
 const UserSchema = new Schema({
@@ -20,6 +21,7 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  /* patients: [PatientSchema], */
 });
 
 module.exports = User = mongoose.model("user", UserSchema);

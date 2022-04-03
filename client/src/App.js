@@ -1,15 +1,22 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { BrowserRouter, Routes, Route, Switch } from "react-router-dom";
 import Header from "./components/Header";
 import PatientList from "./components/PatientList";
 import NoteList from "./components/NoteList";
 import AddPatientForm from "./components/AddPatientForm";
 import AddNoteForm from "./components/AddNoteForm";
+import Login from "./components/Login";
+import CreateAccount from "./components/CreateAccount";
 
 function App() {
+  // Token authentication
+  const [token, setToken] = useState("");
+
+  // Patient state
   const [patients, setPatients] = useState([]);
 
-  //get patients from server
+  // Get patients from server
   const getPatients = async () => {
     const response = await axios.get("/api/patients");
     setPatients(response.data);
@@ -20,52 +27,64 @@ function App() {
   }, [patients]);
 
   //
-  //selection of patients
+  // Selection of patients
   const [activePatient, setActivePatient] = useState("");
 
-  //select active patient
+  // Select active patient
   const selectPatient = (_id) => {
     setActivePatient(_id);
   };
 
-  //close active patient
+  // Close active patient
   const closePatient = () => {
     setActivePatient("");
   };
 
   //
-  //adding and deleting patients
+  // Adding and deleting patients
   const [addPatient, setAddPatient] = useState(false);
 
-  //open add patient form
+  // Open add patient form
   const toggleAddPatientForm = () => {
     setAddPatient(!addPatient);
   };
 
-  //save new patient information
+  // Save new patient information
   const saveNewPatient = (patient) => {
-    axios.post("/api/patients", {
-      lastName: patient.lastName,
-      firstName: patient.firstName,
-      birthDate: patient.birthDate,
+    axios.post(
+      "/api/patients",
+      {
+        lastName: patient.lastName,
+        firstName: patient.firstName,
+        birthDate: patient.birthDate,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
+  };
+
+  // Delete patient
+  const deletePatient = (id) => {
+    axios.delete(`/api/patients/${id}`, {
+      headers: {
+        "x-auth-token": token,
+      },
     });
   };
 
-  //delete patient
-  const deletePatient = (id) => {
-    axios.delete(`/api/patients/${id}`);
-  };
-
   //
-  //adding notes
+  // Adding notes
   const [addNote, setAddNote] = useState(false);
 
-  //open add note form
+  // Open add note form
   const toggleAddNoteForm = () => {
     setAddNote(!addNote);
   };
 
-  //save new note
+  // Save new note
   const saveNewNote = (note) => {
     const newNote = {
       date: note.date,
@@ -75,11 +94,36 @@ function App() {
       plan: note.plan,
     };
     const updatedNotes = [...note.selectedPatient.notes, newNote];
-    axios.patch(`/api/patients/${activePatient}`, {
-      notes: updatedNotes,
-    });
+    axios.patch(
+      `/api/patients/${activePatient}`,
+      {
+        notes: updatedNotes,
+      },
+      {
+        headers: {
+          "x-auth-token": token,
+        },
+      }
+    );
     console.log(updatedNotes);
   };
+
+  if (!token) {
+    return (
+      <div>
+        <Header />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login setToken={setToken} />} />
+            <Route
+              path="/create-account"
+              element={<CreateAccount setToken={setToken} />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    );
+  }
 
   return (
     <div className="App">

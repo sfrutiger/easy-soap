@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const NoteSchema = require("./Note");
 
 //Create Schema
 const PatientSchema = new Schema({
@@ -15,30 +16,8 @@ const PatientSchema = new Schema({
     type: Date,
     required: true,
   },
-  notes: [
-    {
-      date: {
-        type: Date,
-        required: true,
-      },
-      subjective: {
-        type: String,
-        required: false,
-      },
-      objective: {
-        type: String,
-        required: false,
-      },
-      assessment: {
-        type: String,
-        required: false,
-      },
-      plan: {
-        type: String,
-        required: false,
-      },
-    },
-  ],
+  notes: [NoteSchema],
 });
 
 module.exports = Patient = mongoose.model("patient", PatientSchema);
+/* module.exports = PatientSchema; */
