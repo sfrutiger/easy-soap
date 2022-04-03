@@ -57,6 +57,7 @@ function App() {
         lastName: patient.lastName,
         firstName: patient.firstName,
         birthDate: patient.birthDate,
+        token: token,
       },
       {
         headers: {

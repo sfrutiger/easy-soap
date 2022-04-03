@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
+const jwt = require("jsonwebtoken");
 
 // Models
 const Patient = require("../../models/Patient");
@@ -18,11 +19,16 @@ router.get("/", (req, res) => {
 // @route  POST api/patients
 // @desc   Create a patient
 // @access Private
+
 router.post("/", auth, (req, res) => {
+  const decoded = jwt.verify(req.body.token, "soap_JwtSecret");
+  const userId = decoded.id;
+
   const newPatient = new Patient({
     lastName: req.body.lastName,
     firstName: req.body.firstName,
     birthDate: req.body.birthDate,
+    owner: userId,
   });
   newPatient.save().then((patient) => res.json(patient));
 });
