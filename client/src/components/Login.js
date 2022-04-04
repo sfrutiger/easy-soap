@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Login = ({ setToken }) => {
+const Login = ({ setToken, getPatients }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -15,6 +15,7 @@ const Login = ({ setToken }) => {
       })
       .then(function (response) {
         setToken(response.data.token);
+        /* getPatients(); */
       })
       .catch(function (error) {
         console.log(error);

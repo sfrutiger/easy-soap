@@ -18,7 +18,7 @@ const CreateAccount = ({ setToken }) => {
   };
 
   // Login user
-  const loginUser = async () => {
+  /*   const loginUser = async () => {
     axios
       .post("api/auth", {
         email: email,
@@ -30,7 +30,7 @@ const CreateAccount = ({ setToken }) => {
       .catch(function (error) {
         console.log(error);
       });
-  };
+  }; */
 
   const handleSubmit = async (e) => {
     e.preventDefault();

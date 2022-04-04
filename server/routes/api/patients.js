@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const jwt = require("jsonwebtoken");
+const config = require("config");
 
 // Models
 const Patient = require("../../models/Patient");
@@ -10,7 +11,10 @@ const Patient = require("../../models/Patient");
 // @desc   Get all patients
 // @access Public
 router.get("/", (req, res) => {
-  Patient.find()
+  const decoded = jwt.verify(req.headers.token, config.get("jwtSecret"));
+  const userId = decoded.id;
+
+  Patient.find({ owner: userId })
     .collation({ locale: "en" })
     .sort({ lastName: "asc" })
     .then((patients) => res.json(patients));
@@ -21,7 +25,7 @@ router.get("/", (req, res) => {
 // @access Private
 
 router.post("/", auth, (req, res) => {
-  const decoded = jwt.verify(req.body.token, "soap_JwtSecret");
+  const decoded = jwt.verify(req.body.token, config.get("jwtSecret"));
   const userId = decoded.id;
 
   const newPatient = new Patient({

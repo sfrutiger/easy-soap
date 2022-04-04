@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BrowserRouter, Routes, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import PatientList from "./components/PatientList";
 import NoteList from "./components/NoteList";
@@ -17,14 +17,23 @@ function App() {
   const [patients, setPatients] = useState([]);
 
   // Get patients from server
+
+  const authAxios = axios.create({
+    headers: {
+      token: token,
+    },
+  });
+
   const getPatients = async () => {
-    const response = await axios.get("/api/patients");
+    const response = await authAxios.get("/api/patients");
     setPatients(response.data);
   };
 
-  useEffect(() => {
-    getPatients(patients);
-  }, [patients]);
+  useEffect(
+    () => {
+      getPatients(patients);
+    } /* [patients] */
+  );
 
   //
   // Selection of patients
@@ -115,7 +124,10 @@ function App() {
         <Header />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login setToken={setToken} />} />
+            <Route
+              path="/"
+              element={<Login setToken={setToken} getPatients={getPatients} />}
+            />
             <Route
               path="/create-account"
               element={<CreateAccount setToken={setToken} />}
