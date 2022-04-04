@@ -31,7 +31,9 @@ function App() {
 
   useEffect(
     () => {
-      getPatients(patients);
+      if (token) {
+        getPatients(patients);
+      }
     } /* [patients] */
   );
 
