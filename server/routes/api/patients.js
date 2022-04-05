@@ -11,7 +11,7 @@ const Patient = require("../../models/Patient");
 // @desc   Get all patients
 // @access Public
 router.get("/", (req, res) => {
-  const decoded = jwt.verify(req.headers.token, config.get("jwtSecret"));
+  const decoded = jwt.verify(req.cookies.token, config.get("jwtSecret"));
   const userId = decoded.id;
 
   Patient.find({ owner: userId })
@@ -23,9 +23,8 @@ router.get("/", (req, res) => {
 // @route  POST api/patients
 // @desc   Create a patient
 // @access Private
-
 router.post("/", auth, (req, res) => {
-  const decoded = jwt.verify(req.body.token, config.get("jwtSecret"));
+  const decoded = jwt.verify(req.cookies.token, config.get("jwtSecret"));
   const userId = decoded.id;
 
   const newPatient = new Patient({

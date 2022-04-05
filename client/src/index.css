@@ -8,6 +8,19 @@
     @apply text-gray-200;
     @apply m-4;
   }
+
+  .form-container {
+    @apply w-full flex justify-center mt-16;
+  }
+
+  .form-border {
+    @apply border-2 p-2;
+  }
+
+  .form-label {
+    @apply text-2xl border-b-2 inline;
+  }
+
   button {
     @apply bg-gray-200;
     @apply text-gray-800;

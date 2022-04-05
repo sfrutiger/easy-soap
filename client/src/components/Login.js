@@ -15,7 +15,6 @@ const Login = ({ setToken, getPatients }) => {
       })
       .then(function (response) {
         setToken(response.data.token);
-        /* getPatients(); */
       })
       .catch(function (error) {
         console.log(error);

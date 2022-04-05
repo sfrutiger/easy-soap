@@ -13,11 +13,19 @@ function App() {
   // Token authentication
   const [token, setToken] = useState("");
 
+  const getToken = async () => {
+    const { data } = await axios.get("/api/auth");
+    setToken(data.token);
+  };
+
+  if (!token) {
+    getToken();
+  }
+
   // Patient state
   const [patients, setPatients] = useState([]);
 
   // Get patients from server
-
   const authAxios = axios.create({
     headers: {
       token: token,
@@ -62,29 +70,16 @@ function App() {
 
   // Save new patient information
   const saveNewPatient = (patient) => {
-    axios.post(
-      "/api/patients",
-      {
-        lastName: patient.lastName,
-        firstName: patient.firstName,
-        birthDate: patient.birthDate,
-        token: token,
-      },
-      {
-        headers: {
-          "x-auth-token": token,
-        },
-      }
-    );
+    axios.post("/api/patients", {
+      lastName: patient.lastName,
+      firstName: patient.firstName,
+      birthDate: patient.birthDate,
+    });
   };
 
   // Delete patient
   const deletePatient = (id) => {
-    axios.delete(`/api/patients/${id}`, {
-      headers: {
-        "x-auth-token": token,
-      },
-    });
+    axios.delete(`/api/patients/${id}`);
   };
 
   //
@@ -117,7 +112,6 @@ function App() {
         },
       }
     );
-    console.log(updatedNotes);
   };
 
   if (!token) {

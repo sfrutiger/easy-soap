@@ -1,11 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const config = require("config");
+const cookieParser = require("cookie-parser");
+const expressJwt = require("express-jwt");
 
 const app = express();
 
-//Bodyparser Middleware
+// Middleware
 app.use(express.json());
+app.use(cookieParser());
+/* app.use(expressJwt(config.get("jwtSecret"))); */
 
 //DB Config
 const db = config.get("mongoURI");

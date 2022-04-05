@@ -29,9 +29,9 @@ const AddPatientForm = ({ toggleAddPatientForm, saveNewPatient }) => {
   };
 
   return (
-    <div className="w-full flex justify-center mt-16">
-      <div className="border-2 p-2">
-        <h3 className="text-2xl border-b-2 inline">Add new patient</h3>
+    <div className="form-container">
+      <div className="form-border">
+        <h3 className="form-label">Add new patient</h3>
         <form className="my-4" onSubmit={onSubmit}>
           <div>
             <label htmlFor="first-name">First Name</label>

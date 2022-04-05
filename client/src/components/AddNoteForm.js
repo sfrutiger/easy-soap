@@ -40,9 +40,9 @@ const AddNoteForm = ({
   };
 
   return (
-    <div className="w-full flex justify-center mt-8">
-      <div className="border-2 p-2">
-        <h3 className="text-2xl border-b-2 inline">
+    <div className="form-container">
+      <div className="form-border">
+        <h3 className="form-label">
           {selectedPatient.lastName}, {selectedPatient.firstName}
         </h3>
         <form className="my-4" onSubmit={onSubmit}>
