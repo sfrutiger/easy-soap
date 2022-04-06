@@ -53,10 +53,17 @@ router.post("/", (req, res) => {
 // @route  GET api/auth
 // @desc   Get jwt token
 // @access Public
-
 router.get("/", (req, res) => {
   const token = req.cookies.token;
   res.json({ token });
+});
+
+// @route  DELETE api/auth
+// @desc   Delete jwt token
+// @access Public
+router.delete("/", (req, res) => {
+  res.clearCookie("token");
+  res.json({ token: "" });
 });
 
 module.exports = router;

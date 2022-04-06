@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
+import LogoutButton from "./components/LogoutButton";
 import PatientList from "./components/PatientList";
 import NoteList from "./components/NoteList";
 import AddPatientForm from "./components/AddPatientForm";
@@ -39,6 +40,9 @@ function App() {
 
   useEffect(
     () => {
+      if (!token) {
+        getToken();
+      }
       if (token) {
         getPatients(patients);
       }
@@ -137,6 +141,7 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <LogoutButton setToken={setToken} />
       {activePatient !== "" || addPatient === true ? (
         ""
       ) : (

@@ -9,7 +9,6 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-/* app.use(expressJwt(config.get("jwtSecret"))); */
 
 //DB Config
 const db = config.get("mongoURI");
