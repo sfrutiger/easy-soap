@@ -40,7 +40,9 @@ const NoteList = ({
           <h3 className="text-2xl border-b-2 inline">
             {selectedPatient.lastName}, {selectedPatient.firstName}
           </h3>
+          <h3 className="text-xl my-2">Notes:</h3>
         </div>
+
         {patientNotes.length === 0 ? <h4>No notes to show</h4> : ""}
         {patientNotes.map((note) => (
           <Note

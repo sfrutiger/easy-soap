@@ -1,20 +1,23 @@
-const Note = ({ note, selectNote, selectedNote, closeNote }) => {
+const Note = ({ note, selectNote, selectedNote }) => {
+  const date = note.date;
+  const formattedDate = new Date(date).toLocaleDateString("en-US");
+
   return (
     <div>
       <div>
         {selectedNote === "" ? (
-          <h4 className="records" onClick={() => selectNote(note._id)}>
-            {note.date}
-          </h4>
+          <p className="records" onClick={() => selectNote(note._id)}>
+            {formattedDate}
+          </p>
         ) : (
           ""
         )}
         {selectedNote === note._id ? (
           <div className="w-full flex justify-center mt-4">
-            <div className="border-2 p-2">
+            <div className="border-2 p-2 w-[50%] items-center">
               <div className="my-2">
                 <h5 className="section-label">Encounter date</h5>
-                <p>{note.date}</p>
+                <p>{formattedDate}</p>
               </div>
               <div className="my-2">
                 <h5 className="section-label">Subjective</h5>

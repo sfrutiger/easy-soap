@@ -1,5 +1,4 @@
 import axios from "axios";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -67,10 +66,6 @@ const Login = ({ setToken }) => {
       </div>
     </div>
   );
-};
-
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
 };
 
 export default Login;
