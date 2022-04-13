@@ -23,6 +23,8 @@ function App() {
     getToken();
   }
 
+  // Check token expiration
+
   // Patient state
   const [patients, setPatients] = useState([]);
 

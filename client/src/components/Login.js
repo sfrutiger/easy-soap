@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const loginUser = async () => {
     axios
@@ -16,7 +17,8 @@ const Login = ({ setToken }) => {
         setToken(response.data.token);
       })
       .catch(function (error) {
-        console.log(error);
+        setErrorMessage("Invalid credentials!");
+        setTimeout(() => setErrorMessage(""), 5000);
       });
   };
 
@@ -49,9 +51,10 @@ const Login = ({ setToken }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <div className="error-message text-red-500 mb-4">{errorMessage}</div>
           <div>
             <input
-              className="submit-button"
+              className="submit-button ml-2"
               type="submit"
               value="Login"
             ></input>

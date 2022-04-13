@@ -22,6 +22,7 @@ const NoteList = ({
   );
 
   const patientNotes = selectedPatient.notes || [];
+  patientNotes.sort((a, b) => (a.date < b.date ? 1 : -1));
 
   return (
     <div className="w-full flex justify-center">

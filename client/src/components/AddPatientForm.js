@@ -21,6 +21,7 @@ const AddPatientForm = ({ toggleAddPatientForm, saveNewPatient }) => {
       alert("Add date of birth");
       return;
     }
+
     saveNewPatient({ firstName, lastName, birthDate, notes });
     setFirstName("");
     setLastName("");
