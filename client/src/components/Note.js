@@ -1,6 +1,13 @@
+const { DateTime } = require("luxon");
+
 const Note = ({ note, selectNote, selectedNote }) => {
-  const date = note.date;
-  const formattedDate = new Date(date).toLocaleDateString("en-US");
+  const date = new Date(note.date);
+  const offset = date.getTimezoneOffset();
+  let formattedDate = DateTime.fromJSDate(date)
+    .plus({
+      minutes: offset,
+    })
+    .toLocaleString(DateTime.DATE_SHORT);
 
   return (
     <div>

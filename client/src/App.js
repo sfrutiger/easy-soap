@@ -36,8 +36,12 @@ function App() {
   });
 
   const getPatients = async () => {
-    const response = await authAxios.get("/api/patients");
-    setPatients(response.data);
+    try {
+      const response = await authAxios.get("/api/patients");
+      setPatients(response.data);
+    } catch (error) {
+      logout();
+    }
   };
 
   useEffect(
@@ -120,6 +124,18 @@ function App() {
     );
   };
 
+  // Logut user
+  const logout = async () => {
+    axios
+      .delete("api/auth")
+      .then(function () {
+        setToken("");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   if (!token) {
     return (
       <div>
@@ -143,7 +159,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <LogoutButton setToken={setToken} />
+      <LogoutButton setToken={setToken} logout={logout} />
       {activePatient !== "" || addPatient === true ? (
         ""
       ) : (

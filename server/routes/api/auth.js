@@ -31,11 +31,15 @@ router.post("/", (req, res) => {
         { id: user.id },
         config.get("jwtSecret"),
         {
-          expiresIn: 3600,
+          expiresIn: 360000,
         },
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token, { httpOnly: true });
+          res.cookie("token", token, {
+            httpOnly: true,
+            sameSite: "lax",
+            secure: true,
+          });
           res.json({
             token,
             user: {
