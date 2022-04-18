@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const config = require("config");
+const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const auth = require("../../middleware/auth");
+const config = require("config");
+
+dotenv.config()
 
 // Models
 const User = require("../../models/User");
@@ -29,7 +32,7 @@ router.post("/", (req, res) => {
 
       const token = jwt.sign(
         { id: user.id },
-        config.get("jwtSecret"),
+        process.env.JWTSECRET,
         {
           expiresIn: 360000,
         },
@@ -38,7 +41,7 @@ router.post("/", (req, res) => {
           res.cookie("token", token, {
             httpOnly: true,
             sameSite: "lax",
-            secure: true,
+            secure: true
           });
           res.json({
             token,

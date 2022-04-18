@@ -14,7 +14,8 @@
 Tasks.js
 
 # keys
-server/config
+/server/config
+/server/.env
 
 # misc
 .DS_Store

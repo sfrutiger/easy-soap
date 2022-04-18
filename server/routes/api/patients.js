@@ -2,7 +2,12 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 const config = require("config");
+
+dotenv.config()
+const jwtSecret = process.env.JWTSECRET;
+
 
 // Models
 const Patient = require("../../models/Patient");
@@ -11,7 +16,7 @@ const Patient = require("../../models/Patient");
 // @desc   Get all patients
 // @access Public
 router.get("/", (req, res) => {
-  const decoded = jwt.verify(req.cookies.token, config.get("jwtSecret"));
+  const decoded = jwt.verify(req.cookies.token, jwtSecret);
   const userId = decoded.id;
 
   Patient.find({ owner: userId })
@@ -24,7 +29,7 @@ router.get("/", (req, res) => {
 // @desc   Create a patient
 // @access Private
 router.post("/", auth, (req, res) => {
-  const decoded = jwt.verify(req.cookies.token, config.get("jwtSecret"));
+  const decoded = jwt.verify(req.cookies.token, jwtSecret);
   const userId = decoded.id;
 
   const newPatient = new Patient({

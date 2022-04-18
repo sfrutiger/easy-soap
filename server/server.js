@@ -1,8 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const config = require("config");
+const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const expressJwt = require("express-jwt");
+const config = require("config");
 
 const app = express();
 
@@ -11,7 +12,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 //DB Config
-const db = config.get("mongoURI");
+dotenv.config();
+const db = process.env.MONGOURI;
 
 //Connect to Mongo
 mongoose

@@ -1,59 +1,25 @@
-import { useState } from "react";
-import Note from "./Note";
+import NoteDate from "./NoteDate";
 
-const NoteList = ({
-  patients,
-  activePatient,
-  closePatient,
-  toggleAddNoteForm,
-}) => {
-  const [selectedNote, setSelectedNote] = useState("");
-
-  const selectNote = (id) => {
-    setSelectedNote(id);
-  };
-
-  const closeNote = () => {
-    setSelectedNote("");
-  };
-
-  const selectedPatient = patients.find(
-    (patient) => patient._id === activePatient
-  );
-
+const NoteList = ({ selectedPatient, selectNote }) => {
+  // Sort notes by date
   const patientNotes = selectedPatient.notes || [];
   patientNotes.sort((a, b) => (a.date < b.date ? 1 : -1));
 
   return (
-    <div className="w-full flex justify-center">
-      <div className="w-full max-w-5xl">
-        <div className="flex justify-between">
-          <button onClick={closePatient}>Return to patient list</button>
-          <button onClick={() => toggleAddNoteForm()}>Add note</button>
+    <div className="col-span-1">
+      <div className="w-full">
+        <div>
+          <h4 className="text-2xl">Notes:</h4>
+          {patientNotes.length === 0 ? <h4>No notes to show</h4> : ""}
+          {patientNotes.map((note) => (
+            <NoteDate
+              key={note._id}
+              id={note._id}
+              noteDate={note.date}
+              selectNote={selectNote}
+            />
+          ))}
         </div>
-        {selectedNote !== "" ? (
-          <button onClick={() => closeNote()}>Return to note list</button>
-        ) : (
-          ""
-        )}
-
-        <div className="my-2">
-          <h3 className="text-2xl border-b-2 inline">
-            {selectedPatient.lastName}, {selectedPatient.firstName}
-          </h3>
-          <h3 className="text-xl my-2">Notes:</h3>
-        </div>
-
-        {patientNotes.length === 0 ? <h4>No notes to show</h4> : ""}
-        {patientNotes.map((note) => (
-          <Note
-            key={note._id}
-            note={note}
-            selectNote={selectNote}
-            selectedNote={selectedNote}
-            closeNote={closeNote}
-          />
-        ))}
       </div>
     </div>
   );

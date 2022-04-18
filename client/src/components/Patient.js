@@ -14,7 +14,7 @@ const Patient = ({ patient, selectPatient, deletePatient }) => {
       <h4 className="records" onClick={() => selectPatient(patient._id)}>
         {patient.lastName}, {patient.firstName} {formattedDate}
       </h4>
-      <button onClick={() => deletePatient(patient._id)}>Delete Patient</button>
+      {/* <button onClick={() => deletePatient(patient._id)}>Delete Patient</button> */}
     </div>
   );
 };

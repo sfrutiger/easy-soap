@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import LogoutButton from "./components/LogoutButton";
 import PatientList from "./components/PatientList";
-import NoteList from "./components/NoteList";
+import NotePage from "./components/NotePage";
 import AddPatientForm from "./components/AddPatientForm";
 import AddNoteForm from "./components/AddNoteForm";
 import Login from "./components/Login";
@@ -23,8 +23,6 @@ function App() {
     getToken();
   }
 
-  // Check token expiration
-
   // Patient state
   const [patients, setPatients] = useState([]);
 
@@ -40,7 +38,8 @@ function App() {
       const response = await authAxios.get("/api/patients");
       setPatients(response.data);
     } catch (error) {
-      logout();
+      /* logout(); */
+      console.log(error)
     }
   };
 
@@ -174,7 +173,7 @@ function App() {
       {activePatient === "" || addNote === true ? (
         ""
       ) : (
-        <NoteList
+        <NotePage
           patients={patients}
           activePatient={activePatient}
           closePatient={closePatient}
