@@ -46,9 +46,9 @@ function App() {
   useEffect(() => {
     if (!token) {
       getToken();
+      getPatients();
     }
-    getPatients();
-  }, []);
+  }, [token]);
 
   //
   // Selection of patients
@@ -74,17 +74,19 @@ function App() {
   };
 
   // Save new patient information
-  const saveNewPatient = (patient) => {
-    axios.post("/api/patients", {
+  const saveNewPatient = async (patient) => {
+    const response = await axios.post("/api/patients", {
       lastName: patient.lastName,
       firstName: patient.firstName,
       birthDate: patient.birthDate,
     });
+    setPatients((patients) => [...patients, response.data]);
   };
 
   // Delete patient
   const deletePatient = (id) => {
     axios.delete(`/api/patients/${id}`);
+    setPatients(patients.filter((patient) => patient._id !== id));
   };
 
   //
@@ -97,7 +99,7 @@ function App() {
   };
 
   // Save new note
-  const saveNewNote = (note) => {
+  const saveNewNote = async (note) => {
     const newNote = {
       date: note.date,
       subjective: note.subjective,
@@ -106,17 +108,10 @@ function App() {
       plan: note.plan,
     };
     const updatedNotes = [...note.selectedPatient.notes, newNote];
-    axios.patch(
-      `/api/patients/${activePatient}`,
-      {
-        notes: updatedNotes,
-      },
-      {
-        headers: {
-          "x-auth-token": token,
-        },
-      }
-    );
+    const response = await axios.patch(`/api/patients/${activePatient}`, {
+      notes: updatedNotes,
+    });
+    getPatients();
   };
 
   // Logut user

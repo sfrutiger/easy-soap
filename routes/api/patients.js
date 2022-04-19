@@ -52,7 +52,7 @@ router.delete("/:id", auth, (req, res) => {
 // @route  Patch api/patients/:id
 // @desc   Edit patient information, add notes
 // @access Public
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", auth, async (req, res, next) => {
   try {
     const id = req.params.id;
     const updates = req.body;
