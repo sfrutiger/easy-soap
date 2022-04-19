@@ -3,17 +3,16 @@
   "version": "1.0.0",
   "description": "Basice web based EMR built with MERN stack",
   "main": "server.js",
-  "engines": {"node": "v17.2.0"},
+  "engines": {
+    "node": "v17.2.0"
+  },
   "scripts": {
-    "server": "nodemon server.js",
-    "client": "npm start --prefix ./client/",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "prod": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "cd client && npm run build",
-    "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
-    "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "dev": "react-scripts start",
+    "start": "serve -s build",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "author": "Seth Frutiger",
   "license": "MIT",
@@ -26,7 +25,8 @@
     "express": "^4.17.3",
     "express-jwt": "^6.1.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.8"
+    "mongoose": "^6.2.8",
+    "serve": "^13.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
