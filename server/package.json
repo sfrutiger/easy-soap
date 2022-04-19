@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Basice web based EMR built with MERN stack",
   "main": "server.js",
+  "engines": {"node": "v17.2.0"},
   "scripts": {
     "server": "nodemon server.js",
     "client": "npm start --prefix ../client/",
