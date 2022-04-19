@@ -39,20 +39,16 @@ function App() {
       setPatients(response.data);
     } catch (error) {
       /* logout(); */
-      console.log(error)
+      console.log(error);
     }
   };
 
-  useEffect(
-    () => {
-      if (!token) {
-        getToken();
-      }
-      if (token) {
-        getPatients(patients);
-      }
-    } /* [patients] */
-  );
+  useEffect(() => {
+    if (!token) {
+      getToken();
+    }
+    getPatients();
+  }, []);
 
   //
   // Selection of patients

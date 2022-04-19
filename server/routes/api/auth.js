@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const auth = require("../../middleware/auth");
 const config = require("config");
 
-dotenv.config()
+dotenv.config();
 
 // Models
 const User = require("../../models/User");
@@ -41,7 +41,7 @@ router.post("/", (req, res) => {
           res.cookie("token", token, {
             httpOnly: true,
             sameSite: "lax",
-            secure: true
+            secure: true,
           });
           res.json({
             token,
