@@ -7,15 +7,13 @@
     "node": "v17.2.0"
   },
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "nodemon server",
     "client": "npm start --prefix ./client/",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "prod": "concurrently \"npm run server\" \"npm run client\"",
     "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
-    "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "start": "concurrently --kill-others-on-fail \"node server.js\" \"npm run client\""
   },
   "author": "Seth Frutiger",
   "license": "MIT",
