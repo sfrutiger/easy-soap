@@ -13,8 +13,8 @@ const CreateAccount = ({ setToken }) => {
   const [accountCreated, setAccountCreated] = useState(false);
 
   // Create new user
-  const createUser = async () => {
-    await axios.post("/api/users", {
+  const createUser = () => {
+    axios.post("/api/users", {
       name: name,
       email: email,
       password: password,
