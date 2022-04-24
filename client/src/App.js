@@ -23,6 +23,12 @@ function App() {
     getToken();
   }
 
+  useEffect(() => {
+    if (!token) {
+      getToken();
+    }
+  }, [token]);
+
   // Patient state
   const [patients, setPatients] = useState([]);
 
@@ -42,13 +48,6 @@ function App() {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (!token) {
-      getToken();
-      getPatients();
-    }
-  }, [token]);
 
   //
   // Selection of patients

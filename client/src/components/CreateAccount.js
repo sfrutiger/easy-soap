@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const CreateAccount = ({ setToken }) => {
+const CreateAccount = () => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -13,17 +13,21 @@ const CreateAccount = ({ setToken }) => {
   const [accountCreated, setAccountCreated] = useState(false);
 
   // Create new user
-  const createUser = () => {
-    axios.post("/api/users", {
-      name: name,
-      email: email,
-      password: password,
-    });
-    setMessage("Account succesfully created!");
-    setAccountCreated(true);
+  const createUser = async (res) => {
+    try {
+      const response = await axios.post("api/users", {
+        name: name,
+        email: email,
+        password: password,
+      });
+      setAccountCreated(true);
+      setMessage("Account succesfully created!");
+    } catch (error) {
+      setErrorMessage(error.response.data.msg);
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!name) {
       setErrorMessage("Enter a name!");
@@ -35,7 +39,7 @@ const CreateAccount = ({ setToken }) => {
       setErrorMessage("Passwords do not match!");
       setTimeout(() => setErrorMessage(""), 5000);
     } else {
-      await createUser();
+      createUser({ name, email, password });
     }
   };
 
