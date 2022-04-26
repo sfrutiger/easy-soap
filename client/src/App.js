@@ -19,6 +19,7 @@ function App() {
     setToken(data.token);
   };
 
+  //get token on page load
   if (!token) {
     getToken();
   }
@@ -26,8 +27,9 @@ function App() {
   useEffect(() => {
     if (!token) {
       getToken();
+      getPatients();
     }
-  }, [token]);
+  },);
 
   // Patient state
   const [patients, setPatients] = useState([]);
@@ -107,7 +109,7 @@ function App() {
       plan: note.plan,
     };
     const updatedNotes = [...note.selectedPatient.notes, newNote];
-    const response = await axios.patch(`/api/patients/${activePatient}`, {
+    await axios.patch(`/api/patients/${activePatient}`, {
       notes: updatedNotes,
     });
     getPatients();

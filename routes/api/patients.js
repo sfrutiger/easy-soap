@@ -19,8 +19,8 @@ router.get("/", (req, res) => {
   const userId = decoded.id;
 
   Patient.find({ owner: userId })
-    .collation({ locale: "en" })
-    .sort({ lastName: "asc" })
+    /* .collation({ locale: "en" })
+    .sort({ lastName: "asc" }) */
     .then((patients) => res.json(patients));
 });
 

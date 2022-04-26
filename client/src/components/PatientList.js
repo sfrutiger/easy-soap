@@ -6,6 +6,10 @@ const PatientList = ({
   deletePatient,
   toggleAddPatientForm,
 }) => {
+
+  /* const patientsSorted = patients || []; */
+  patients.sort((a, b) => a.lastName.localeCompare(b.lastName));
+
   return (
     <div className="w-full flex justify-center">
       <div className="w-full max-w-5xl">
