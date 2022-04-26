@@ -15,7 +15,7 @@ const CreateAccount = () => {
   // Create new user
   const createUser = async (res) => {
     try {
-      const response = await axios.post("api/users", {
+      await axios.post("api/users", {
         name: name,
         email: email,
         password: password,
@@ -100,9 +100,9 @@ const CreateAccount = () => {
                 type="submit"
                 value="Create Account"
               ></input>
-              <button>
-                <Link to="/">Cancel</Link>
-              </button>
+              <Link to="/">
+                <button>Cancel</button>
+              </Link>
             </div>
           </form>
         </div>

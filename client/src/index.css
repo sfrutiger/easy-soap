@@ -4,9 +4,9 @@
 
 @layer base {
   body {
-    @apply bg-gray-800;
-    @apply text-gray-200;
-    @apply m-4;
+    @apply bg-gray-800
+    text-gray-200
+    m-4;
   }
 
   .form-container {
@@ -22,51 +22,51 @@
   }
 
   button {
-    @apply bg-gray-200;
-    @apply text-gray-800;
-    @apply px-2;
-    @apply my-[4px];
-    @apply h-[2em];
-    @apply w-[150px];
-    @apply sm:w-[200px];
-    @apply text-xs;
-    @apply sm:text-base;
-    @apply rounded;
-    @apply hover:bg-gray-300;
+    @apply bg-gray-200
+    text-gray-800
+    px-2
+    my-[4px]
+    h-[2em]
+    w-[150px]
+    sm:w-[200px]
+    text-xs
+    sm:text-base
+    rounded
+    hover:bg-gray-300;
   }
   .submit-button {
-    @apply cursor-pointer;
-    @apply bg-gray-200;
-    @apply text-gray-800;
-    @apply px-2;
-    @apply ml-0;
-    @apply my-[4px];
-    @apply h-[2em];
-    @apply w-[150px];
-    @apply sm:w-[200px];
-    @apply text-xs;
-    @apply sm:text-base;
-    @apply rounded;
-    @apply hover:bg-gray-300;
+    @apply cursor-pointer
+    bg-gray-200
+    text-gray-800
+    px-2
+    ml-0
+    my-[4px]
+    h-[2em]
+    w-[150px]
+    sm:w-[200px]
+    text-xs
+    sm:text-base
+    rounded
+    hover:bg-gray-300;
   }
   .records {
-    @apply cursor-pointer;
-    @apply hover:text-gray-300;
+    @apply cursor-pointer
+    hover:text-gray-300;
   }
   .section-label {
-    @apply font-bold;
-    @apply border-b-[1px];
-    @apply inline;
+    @apply font-bold
+    border-b-[1px]
+    inline;
   }
   input {
-    @apply bg-gray-200;
-    @apply text-gray-800;
-    @apply m-2;
+    @apply bg-gray-200
+    text-gray-800
+    m-2;
   }
   textarea {
-    @apply bg-gray-200;
-    @apply text-gray-800;
-    @apply m-2;
-    @apply mx-0;
+    @apply bg-gray-200
+    text-gray-800
+    m-2
+    mx-0;
   }
 }

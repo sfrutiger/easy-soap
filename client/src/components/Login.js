@@ -63,9 +63,9 @@ const Login = ({ setToken, getPatients }) => {
         </form>
         <div className="my-4 flex flex-col items-center">
           <h2>New user?</h2>
-          <button>
-            <Link to="create-account">Create account</Link>
-          </button>
+          <Link to="create-account">
+            <button>Create account</button>
+          </Link>
         </div>
       </div>
     </div>
