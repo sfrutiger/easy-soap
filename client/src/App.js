@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Header from "./components/Header";
 import LogoutButton from "./components/LogoutButton";
 import PatientList from "./components/PatientList";
@@ -9,44 +15,17 @@ import AddPatientForm from "./components/AddPatientForm";
 import AddNoteForm from "./components/AddNoteForm";
 import Login from "./components/Login";
 import CreateAccount from "./components/CreateAccount";
+import { AuthContextProvider } from "./context/AuthContext";
 
 function App() {
-  // Token authentication
-  const [token, setToken] = useState("");
-
-  const getToken = async () => {
-    const { data } = await axios.get("/api/auth");
-    setToken(data.token);
-  };
-
-  //get token on page load
-  if (!token) {
-    getToken();
-  }
-
-  useEffect(() => {
-    if (!token) {
-      getToken();
-      getPatients();
-    }
-  },);
-
   // Patient state
   const [patients, setPatients] = useState([]);
 
-  // Get patients from server
-  const authAxios = axios.create({
-    headers: {
-      token: token,
-    },
-  });
-
   const getPatients = async () => {
     try {
-      const response = await authAxios.get("/api/patients");
+      const response = await axios.get("/api/patients");
       setPatients(response.data);
     } catch (error) {
-      /* logout(); */
       console.log(error);
     }
   };
@@ -119,79 +98,63 @@ function App() {
   const logout = async () => {
     axios
       .delete("api/auth")
-      .then(function () {
-        setToken("");
-      })
+      .then(function () {})
       .catch(function (error) {
         console.log(error);
       });
   };
 
-  if (!token) {
-    return (
-      <div>
-        <Header />
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/"
-              element={<Login setToken={setToken} getPatients={getPatients} />}
-            />
-            <Route
-              path="/create-account"
-              element={<CreateAccount setToken={setToken} />}
-            />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    );
-  }
-
   return (
-    <div className="App">
-      <Header />
-      <LogoutButton setToken={setToken} logout={logout} />
-      {activePatient !== "" || addPatient === true ? (
-        ""
-      ) : (
-        <PatientList
-          patients={patients}
-          selectPatient={selectPatient}
-          deletePatient={deletePatient}
-          toggleAddPatientForm={toggleAddPatientForm}
-          addPatient={addPatient}
-        />
-      )}
-      {activePatient === "" || addNote === true ? (
-        ""
-      ) : (
-        <NotePage
-          patients={patients}
-          activePatient={activePatient}
-          closePatient={closePatient}
-          toggleAddNoteForm={toggleAddNoteForm}
-          addNote={addNote}
-        />
-      )}
-      {addNote === true ? (
-        <AddNoteForm
-          patients={patients}
-          activePatient={activePatient}
-          toggleAddNoteForm={toggleAddNoteForm}
-          saveNewNote={saveNewNote}
-        />
-      ) : (
-        ""
-      )}
-      {addPatient ? (
-        <AddPatientForm
-          toggleAddPatientForm={toggleAddPatientForm}
-          saveNewPatient={saveNewPatient}
-        />
-      ) : (
-        ""
-      )}
-    </div>
+    <AuthContextProvider>
+      <div className="App">
+        <Header />
+        <LogoutButton logout={logout} />
+        {activePatient !== "" || addPatient === true ? (
+          ""
+        ) : (
+          <PatientList
+            patients={patients}
+            selectPatient={selectPatient}
+            deletePatient={deletePatient}
+            toggleAddPatientForm={toggleAddPatientForm}
+            addPatient={addPatient}
+          />
+        )}
+        {activePatient === "" || addNote === true ? (
+          ""
+        ) : (
+          <NotePage
+            patients={patients}
+            activePatient={activePatient}
+            closePatient={closePatient}
+            toggleAddNoteForm={toggleAddNoteForm}
+            addNote={addNote}
+          />
+        )}
+        {addNote === true ? (
+          <AddNoteForm
+            patients={patients}
+            activePatient={activePatient}
+            toggleAddNoteForm={toggleAddNoteForm}
+            saveNewNote={saveNewNote}
+          />
+        ) : (
+          ""
+        )}
+        {addPatient ? (
+          <AddPatientForm
+            toggleAddPatientForm={toggleAddPatientForm}
+            saveNewPatient={saveNewPatient}
+          />
+        ) : (
+          ""
+        )}
+        <Routes>
+          <Route exact path="/" element={<Login getPatients={getPatients} />} />
+          <Route exact path="/create-account" element={<CreateAccount />} />
+        </Routes>
+      </div>
+    </AuthContextProvider>
   );
 }
 

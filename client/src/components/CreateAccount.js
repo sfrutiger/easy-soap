@@ -1,9 +1,9 @@
-import axios from "axios";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { UserAuth } from "../context/AuthContext";
 
 const CreateAccount = () => {
+  const { createUser } = UserAuth();
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -11,21 +11,6 @@ const CreateAccount = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [message, setMessage] = useState("");
   const [accountCreated, setAccountCreated] = useState(false);
-
-  // Create new user
-  const createUser = async (res) => {
-    try {
-      await axios.post("api/users", {
-        name: name,
-        email: email,
-        password: password,
-      });
-      setAccountCreated(true);
-      setMessage("Account succesfully created!");
-    } catch (error) {
-      setErrorMessage(error.response.data.msg);
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +24,7 @@ const CreateAccount = () => {
       setErrorMessage("Passwords do not match!");
       setTimeout(() => setErrorMessage(""), 5000);
     } else {
-      createUser({ name, email, password });
+      createUser(email, password);
     }
   };
 
@@ -60,7 +45,7 @@ const CreateAccount = () => {
             onSubmit={handleSubmit}
           >
             <div className="flex flex-col mb-4">
-              <label htmlFor="email">Name</label>
+              <label htmlFor="name">Name</label>
               <input
                 name="name"
                 type="text"
@@ -71,7 +56,7 @@ const CreateAccount = () => {
               <label htmlFor="email">Email</label>
               <input
                 name="email"
-                type="text"
+                type="email"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -95,24 +80,20 @@ const CreateAccount = () => {
               {errorMessage}
             </div>
             <div>
-              <input
-                className="submit-button"
-                type="submit"
-                value="Create Account"
-              ></input>
               <Link to="/">
                 <button>Cancel</button>
               </Link>
+              <input
+                className="submit-button m-0 ml-2"
+                type="submit"
+                value="Create Account"
+              ></input>
             </div>
           </form>
         </div>
       )}
     </div>
   );
-};
-
-CreateAccount.propTypes = {
-  setToken: PropTypes.func.isRequired,
 };
 
 export default CreateAccount;

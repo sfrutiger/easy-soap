@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const expressJwt = require("express-jwt");
 const config = require("config");
-const wakeUpDyno = require("./wakeUpDyno");
+const wakeUpDyno = require("../wakeUpDyno");
 
 const app = express();
 
@@ -42,6 +42,6 @@ app.get("*", function (request, response) {
 const DYNO_URL = "https://easy-soap.herokuapp.com/";
 
 app.listen(port, () => {
-  console.log(`Server started on port ${port}`)
+  console.log(`Server started on port ${port}`);
   wakeUpDyno(DYNO_URL);
 });

@@ -30,6 +30,13 @@ const Login = ({ setToken, getPatients }) => {
 
   return (
     <div className="w-full flex justify-center mt-8">
+      <div className="w-[200px] mr-4">
+        <p>
+          Easy SOAP takes the mess out of electronic medical records. EMR
+          systems should make your life easier, not harder. Login or create an
+          account today.
+        </p>
+      </div>
       <div className="border-2 p-2">
         <h1 className="text-2xl border-b-2 inline">Login</h1>
         <form
