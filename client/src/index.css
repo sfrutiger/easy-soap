@@ -69,4 +69,8 @@
     m-2
     mx-0;
   }
+
+  .error-message {
+    @apply text-red-400;
+  }
 }

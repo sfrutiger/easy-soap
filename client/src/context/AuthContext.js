@@ -18,12 +18,11 @@ const UserContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
-  const createUser = (email, password) => {
-    return (
-      createUserWithEmailAndPassword(auth, email, password)
-        /* .then(function () {
+  const createUser = (email, password, name) => {
+    return createUserWithEmailAndPassword(auth, email, password)
+      .then(function () {
         return updateProfile(auth.currentUser, {
-          displayName: username,
+          displayName: name,
         });
       })
       .then(function () {
@@ -34,9 +33,8 @@ export const AuthContextProvider = ({ children }) => {
           axios.post(
             "/api/users",
             {
-              uid: auth.currentUser.uid,
               email: auth.currentUser.email,
-              username: auth.currentUser.displayName,
+              name: auth.currentUser.displayName,
             },
             {
               headers: {
@@ -45,11 +43,10 @@ export const AuthContextProvider = ({ children }) => {
             }
           );
         });
-      }) */
-        .catch(function (error) {
-          return error;
-        })
-    );
+      })
+      .catch(function (error) {
+        return error;
+      });
   };
 
   const deleteAccount = (user) => {

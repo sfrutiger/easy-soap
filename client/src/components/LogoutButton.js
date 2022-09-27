@@ -1,8 +1,15 @@
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+
+const logOut = () => {
+  return signOut(auth);
+};
+
 const LogoutButton = ({ logout }) => {
   return (
     <button
       className="w-[100px] absolute right-4 top-4"
-      onClick={() => logout()}
+      onClick={() => logOut()}
     >
       Logout
     </button>

@@ -1,25 +1,26 @@
-const config = require("config");
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
+const admin = require("firebase-admin");
 
-dotenv.config();
-const jwtSecret = process.env.JWTSECRET;
+const serviceAccount = JSON.parse(process.env.SERVICE_ACCOUNT);
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 function auth(req, res, next) {
-  const token = req.cookies.token;
-
-  // Check for token
-  if (!token) res.status(401).json({ msg: "Access denied" });
-
-  try {
-    // Verify token
-    const decoded = jwt.verify(token, jwtSecret);
-
-    // Add user from payload
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(400).json({ msg: "Invalid token" });
+  if (req.headers.authtoken) {
+    admin
+      .auth()
+      .verifyIdToken(req.headers.authtoken)
+      .then((decodedToken) => {
+        const uid = decodedToken.uid;
+        res.locals.uid = uid;
+        next();
+      })
+      .catch(() => {
+        res.status(403).send("Unauthorized: invalid token");
+      });
+  } else {
+    res.status(403).send("Unauthorized: no token");
   }
 }
 

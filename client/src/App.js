@@ -1,20 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/routes/ProtectedRoute";
+import PublicRoute from "./components/routes/PublicRoute";
 import Header from "./components/Header";
-import LogoutButton from "./components/LogoutButton";
 import PatientList from "./components/PatientList";
 import NotePage from "./components/NotePage";
-import AddPatientForm from "./components/AddPatientForm";
-import AddNoteForm from "./components/AddNoteForm";
+import AddPatientForm from "./components/routes/AddPatientForm";
+import AddNoteForm from "./components/routes/AddNoteForm";
 import Login from "./components/Login";
-import CreateAccount from "./components/CreateAccount";
+import CreateAccount from "./components/routes/CreateAccount";
 import { AuthContextProvider } from "./context/AuthContext";
 
 function App() {
@@ -51,16 +46,6 @@ function App() {
   // Open add patient form
   const toggleAddPatientForm = () => {
     setAddPatient(!addPatient);
-  };
-
-  // Save new patient information
-  const saveNewPatient = async (patient) => {
-    const response = await axios.post("/api/patients", {
-      lastName: patient.lastName,
-      firstName: patient.firstName,
-      birthDate: patient.birthDate,
-    });
-    setPatients((patients) => [...patients, response.data]);
   };
 
   // Delete patient
@@ -108,49 +93,26 @@ function App() {
     <AuthContextProvider>
       <div className="App">
         <Header />
-        <LogoutButton logout={logout} />
-        {activePatient !== "" || addPatient === true ? (
-          ""
-        ) : (
-          <PatientList
-            patients={patients}
-            selectPatient={selectPatient}
-            deletePatient={deletePatient}
-            toggleAddPatientForm={toggleAddPatientForm}
-            addPatient={addPatient}
-          />
-        )}
-        {activePatient === "" || addNote === true ? (
-          ""
-        ) : (
-          <NotePage
-            patients={patients}
-            activePatient={activePatient}
-            closePatient={closePatient}
-            toggleAddNoteForm={toggleAddNoteForm}
-            addNote={addNote}
-          />
-        )}
-        {addNote === true ? (
-          <AddNoteForm
-            patients={patients}
-            activePatient={activePatient}
-            toggleAddNoteForm={toggleAddNoteForm}
-            saveNewNote={saveNewNote}
-          />
-        ) : (
-          ""
-        )}
-        {addPatient ? (
-          <AddPatientForm
-            toggleAddPatientForm={toggleAddPatientForm}
-            saveNewPatient={saveNewPatient}
-          />
-        ) : (
-          ""
-        )}
         <Routes>
-          <Route exact path="/" element={<Login getPatients={getPatients} />} />
+          <Route exact path="/" element={<Login />} />
+          <Route
+            exact
+            path="/signed-in"
+            element={
+              <ProtectedRoute>
+                <PatientList patients={patients} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/add-patient"
+            element={
+              <ProtectedRoute>
+                <AddPatientForm />
+              </ProtectedRoute>
+            }
+          />
           <Route exact path="/create-account" element={<CreateAccount />} />
         </Routes>
       </div>

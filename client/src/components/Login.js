@@ -1,31 +1,25 @@
-import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { UserAuth } from "../context/AuthContext";
 
 const Login = ({ setToken, getPatients }) => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState("");
-
-  const loginUser = async () => {
-    axios
-      .post("api/auth", {
-        email: email,
-        password: password,
-      })
-      .then(function (response) {
-        setToken(response.data.token);
-        getPatients();
-      })
-      .catch(function (error) {
-        setErrorMessage("Invalid credentials!");
-        setTimeout(() => setErrorMessage(""), 5000);
-      });
-  };
+  const { signIn } = UserAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await loginUser();
+    signIn(email, password)
+      .then(function (error) {
+        if (error) {
+          setErrorMessage(error.message);
+        }
+      })
+      .then(function () {
+        navigate("/signed-in");
+      });
   };
 
   return (
