@@ -1,7 +1,7 @@
 const { DateTime } = require("luxon");
 
-const Note = ({ selectedNote, selectedPatient }) => {
-  const notes = selectedPatient.notes;
+const Note = ({ selectedNote, patient }) => {
+  const notes = patient.notes;
   const openNote = notes.find((x) => x._id === selectedNote);
   let formattedDate;
 

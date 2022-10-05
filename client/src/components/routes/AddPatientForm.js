@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { auth } from "../../firebase";
 
 const AddPatientForm = () => {
   const navigate = useNavigate();
@@ -18,13 +19,22 @@ const AddPatientForm = () => {
   }, [errorMessage]);
 
   // Save new patient information
-  const saveNewPatient = async (patient) => {
-    const response = await axios.post("/api/patients", {
-      lastName: patient.lastName,
-      firstName: patient.firstName,
-      birthDate: patient.birthDate,
+  const saveNewPatient = () => {
+    auth.currentUser.getIdToken(true).then(async function (idToken) {
+      const response = await axios.post(
+        "/api/patients",
+        {
+          lastName: lastName,
+          firstName: firstName,
+          birthDate: birthDate,
+        },
+        {
+          headers: {
+            authtoken: idToken,
+          },
+        }
+      );
     });
-    /* setPatients((patients) => [...patients, response.data]); */
   };
 
   const onSubmit = (e) => {
@@ -40,11 +50,10 @@ const AddPatientForm = () => {
     if (!birthDate) {
       setErrorMessage("Add date of birth");
       return;
+    } else {
+      saveNewPatient();
+      navigate("/signed-in");
     }
-    saveNewPatient({ firstName, lastName, birthDate, notes });
-    setFirstName("");
-    setLastName("");
-    setBirthDate("");
   };
 
   return (

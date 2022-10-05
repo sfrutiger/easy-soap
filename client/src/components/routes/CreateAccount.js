@@ -15,16 +15,16 @@ const CreateAccount = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name) {
-      setErrorMessage("Enter a name!");
+      setErrorMessage("Enter a name");
       setTimeout(() => setErrorMessage(""), 5000);
     } else if (!email) {
-      setErrorMessage("Enter an email!");
+      setErrorMessage("Enter an email");
       setTimeout(() => setErrorMessage(""), 5000);
     } else if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match!");
+      setErrorMessage("Passwords do not match");
       setTimeout(() => setErrorMessage(""), 5000);
     } else {
-      createUser(email, password);
+      createUser(email, password, name);
     }
   };
 
@@ -76,9 +76,7 @@ const CreateAccount = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
-            <div className="error-message text-red-500 mb-4">
-              {errorMessage}
-            </div>
+            <div className="error-message mb-4">{errorMessage}</div>
             <div>
               <Link to="/">
                 <button>Cancel</button>

@@ -1,8 +1,8 @@
 import NoteDate from "./NoteDate";
 
-const NoteList = ({ selectedPatient, selectNote }) => {
+const NoteList = ({ patient, selectNote }) => {
   // Sort notes by date
-  const patientNotes = selectedPatient.notes || [];
+  const patientNotes = patient.notes || [];
   patientNotes.sort((a, b) => (a.date < b.date ? 1 : -1));
 
   return (

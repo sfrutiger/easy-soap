@@ -18,7 +18,9 @@ const PatientSchema = new Schema({
     required: true,
   },
   notes: [NoteSchema],
-  owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: User },
+  owner: {
+    type: String,
+  },
 });
 
 module.exports = Patient = mongoose.model("patient", PatientSchema);

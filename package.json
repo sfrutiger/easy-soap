@@ -7,7 +7,7 @@
     "node": "v17.2.0"
   },
   "scripts": {
-    "server": "nodemon server",
+    "server": "nodemon server/server.js",
     "client": "npm start --prefix ./client/",
     "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.27.2",
+    "colors": "^1.4.0",
     "concurrently": "^7.0.0",
     "config": "^3.3.7",
     "dotenv": "^16.0.0",

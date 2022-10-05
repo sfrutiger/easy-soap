@@ -3,7 +3,6 @@ import { UserAuth } from "../context/AuthContext";
 
 const Header = () => {
   const { user } = UserAuth();
-
   return (
     <header className="text-center mb-4">
       <h1 className="text-2xl sm:text-4xl">Easy SOAP</h1>

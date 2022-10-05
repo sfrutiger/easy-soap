@@ -19,34 +19,38 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
   const createUser = (email, password, name) => {
-    return createUserWithEmailAndPassword(auth, email, password)
-      .then(function () {
-        return updateProfile(auth.currentUser, {
-          displayName: name,
-        });
-      })
-      .then(function () {
+    return (
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(function () {
+          return updateProfile(auth.currentUser, {
+            displayName: name,
+          });
+        })
+        /*       .then(function () {
         return sendEmailVerification(auth.currentUser);
-      })
-      .then(function () {
-        auth.currentUser.getIdToken(true).then(function (idToken) {
-          axios.post(
-            "/api/users",
-            {
-              email: auth.currentUser.email,
-              name: auth.currentUser.displayName,
-            },
-            {
-              headers: {
-                authtoken: idToken,
+      }) */
+        .then(function () {
+          console.log("client");
+          auth.currentUser.getIdToken(true).then(function (idToken) {
+            axios.post(
+              "/api/users",
+              {
+                email: auth.currentUser.email,
+                name: auth.currentUser.displayName,
               },
-            }
-          );
-        });
-      })
-      .catch(function (error) {
-        return error;
-      });
+              {
+                headers: {
+                  authtoken: idToken,
+                },
+              }
+            );
+          });
+        })
+        .catch(function (error) {
+          console.log("error from create user client");
+          return error;
+        })
+    );
   };
 
   const deleteAccount = (user) => {

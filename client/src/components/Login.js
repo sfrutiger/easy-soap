@@ -1,25 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
 import { UserAuth } from "../context/AuthContext";
 
-const Login = ({ setToken, getPatients }) => {
+const Login = ({ getPatients }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [errorMessage, setErrorMessage] = useState("");
-  const { signIn } = UserAuth();
+  const [error, setError] = useState("");
+  const { signIn, user } = UserAuth();
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      navigate("/signed-in");
+    }
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    signIn(email, password)
-      .then(function (error) {
+    if (!email) {
+      setError("Enter your email");
+    } else if (!password) {
+      setError("Enter your password");
+    } else {
+      signIn(email, password).then(function (error) {
         if (error) {
-          setErrorMessage(error.message);
+          setError(error.message);
+        } else {
+          navigate("/signed-in");
         }
-      })
-      .then(function () {
-        navigate("/signed-in");
       });
+    }
   };
 
   return (
@@ -31,13 +42,13 @@ const Login = ({ setToken, getPatients }) => {
           account today.
         </p>
       </div>
-      <div className="border-2 p-2">
+      <div className="border-2 p-2 max-w-[50%]">
         <h1 className="text-2xl border-b-2 inline">Login</h1>
         <form
           className="my-4 flex flex-col items-center"
           onSubmit={handleSubmit}
         >
-          <div className="flex flex-col mb-4">
+          <div className="flex flex-col mb-4 max-w-[100%]">
             <label htmlFor="email">Email</label>
             <input
               name="email"
@@ -45,7 +56,7 @@ const Login = ({ setToken, getPatients }) => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="flex flex-col mb-4">
+          <div className="flex flex-col mb-4 max-w-[100%]">
             <label htmlFor="password">Password</label>
             <input
               name="password"
@@ -53,19 +64,19 @@ const Login = ({ setToken, getPatients }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="error-message text-red-500 mb-4">{errorMessage}</div>
-          <div>
+          <div className="error-message mb-4">{error}</div>
+          <div className="max-w-[100%] flex flex-col items-center">
             <input
-              className="submit-button ml-2"
+              className="submit-button"
               type="submit"
               value="Login"
             ></input>
           </div>
         </form>
-        <div className="my-4 flex flex-col items-center">
+        <div className="my-4 flex flex-col items-center max-w-[100%]">
           <h2>New user?</h2>
-          <Link to="create-account">
-            <button>Create account</button>
+          <Link to="create-account" className="max-w-[100%]">
+            <button className="submit-button">Create account</button>
           </Link>
         </div>
       </div>
