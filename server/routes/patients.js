@@ -1,41 +1,36 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../../middleware/auth");
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-const config = require("config");
-
-dotenv.config();
-const jwtSecret = process.env.JWTSECRET;
-
-// Models
-const Patient = require("../../models/Patient");
+const auth = require("../middleware/auth");
+const Patient = require("../models/Patient");
 
 // @route  GET api/patients
 // @desc   Get all patients
-// @access Public
-router.get("/", (req, res) => {
-  const decoded = jwt.verify(req.cookies.token, jwtSecret);
-  const userId = decoded.id;
-
-  Patient.find({ owner: userId })
+// @access Private
+router.get("/", auth, (req, res) => {
+  Patient.find({ owner: res.locals.uid })
     /* .collation({ locale: "en" })
     .sort({ lastName: "asc" }) */
     .then((patients) => res.json(patients));
+});
+
+// @route  GET api/patients
+// @desc   Get all patients
+// @access Private
+router.get("/:id", auth, (req, res) => {
+  const id = req.params.id;
+  Patient.find({ _id: id }).then((patient) => res.json(patient));
 });
 
 // @route  POST api/patients
 // @desc   Create a patient
 // @access Private
 router.post("/", auth, (req, res) => {
-  const decoded = jwt.verify(req.cookies.token, jwtSecret);
-  const userId = decoded.id;
-
+  console.log("add patient");
   const newPatient = new Patient({
     lastName: req.body.lastName,
     firstName: req.body.firstName,
     birthDate: req.body.birthDate,
-    owner: userId,
+    owner: res.locals.uid,
   });
   newPatient.save().then((patient) => res.json(patient));
 });

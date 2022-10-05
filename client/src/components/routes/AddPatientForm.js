@@ -1,32 +1,59 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { auth } from "../../firebase";
 
-const AddPatientForm = ({ toggleAddPatientForm, saveNewPatient }) => {
+const AddPatientForm = () => {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const notes = [];
+
+  //reset error
+  useEffect(() => {
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 5000);
+  }, [errorMessage]);
+
+  // Save new patient information
+  const saveNewPatient = () => {
+    auth.currentUser.getIdToken(true).then(async function (idToken) {
+      const response = await axios.post(
+        "/api/patients",
+        {
+          lastName: lastName,
+          firstName: firstName,
+          birthDate: birthDate,
+        },
+        {
+          headers: {
+            authtoken: idToken,
+          },
+        }
+      );
+    });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     if (!firstName) {
-      alert("Add first name");
+      setErrorMessage("Add first name");
       return;
     }
     if (!lastName) {
-      alert("Add last name");
+      setErrorMessage("Add last name");
       return;
     }
     if (!birthDate) {
-      alert("Add date of birth");
+      setErrorMessage("Add date of birth");
       return;
+    } else {
+      saveNewPatient();
+      navigate("/signed-in");
     }
-
-    saveNewPatient({ firstName, lastName, birthDate, notes });
-    setFirstName("");
-    setLastName("");
-    setBirthDate("");
-    toggleAddPatientForm();
   };
 
   return (
@@ -62,14 +89,15 @@ const AddPatientForm = ({ toggleAddPatientForm, saveNewPatient }) => {
             ></input>
           </div>
           <div>
+            <button onClick={() => navigate("/signed-in")}>Cancel</button>
             <input
-              className="submit-button"
+              className="submit-button m-0 ml-2"
               type="submit"
               value="Save patient"
             ></input>
-            <button onClick={() => toggleAddPatientForm()}>Cancel</button>
           </div>
         </form>
+        <div className="error-message">{errorMessage}</div>
       </div>
     </div>
   );

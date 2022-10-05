@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const { DateTime } = require("luxon");
 
 const Patient = ({ patient, selectPatient, deletePatient }) => {
@@ -11,9 +12,15 @@ const Patient = ({ patient, selectPatient, deletePatient }) => {
 
   return (
     <div>
-      <h4 className="records" onClick={() => selectPatient(patient._id)}>
-        {patient.lastName}, {patient.firstName} {formattedDate}
-      </h4>
+      <Link
+        to={`/patientdetail/${patient._id}`}
+        state={patient}
+        key={patient._id}
+      >
+        <h4 className="records">
+          {patient.lastName}, {patient.firstName} {formattedDate}
+        </h4>
+      </Link>
       {/* <button onClick={() => deletePatient(patient._id)}>Delete Patient</button> */}
     </div>
   );

@@ -29,6 +29,7 @@
     h-[2em]
     w-[150px]
     sm:w-[200px]
+    max-w-[100%]
     text-xs
     sm:text-base
     rounded
@@ -39,11 +40,12 @@
     bg-gray-200
     text-gray-800
     px-2
-    ml-0
     my-[4px]
+    mx-0
     h-[2em]
     w-[150px]
     sm:w-[200px]
+    max-w-[100%]
     text-xs
     sm:text-base
     rounded
@@ -68,5 +70,9 @@
     text-gray-800
     m-2
     mx-0;
+  }
+
+  .error-message {
+    @apply text-red-400;
   }
 }

@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { auth } from "../../firebase";
 
-const AddNoteForm = ({
-  toggleAddNoteForm,
-  saveNewNote,
-  activePatient,
-  patients,
-}) => {
-  const selectedPatient = patients.find(
-    (patient) => patient._id === activePatient
-  );
+const AddNoteForm = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [patient, setPatient] = useState(location.state);
 
   const [date, setDate] = useState("");
   const [subjective, setSubjective] = useState("");
@@ -16,34 +14,64 @@ const AddNoteForm = ({
   const [assessment, setAssessment] = useState("");
   const [plan, setPlan] = useState("");
 
+  const [error, setError] = useState("");
+  //reset error
+  useEffect(() => {
+    setTimeout(() => {
+      setError("");
+    }, 5000);
+  }, [error]);
+
+  const saveNewNote = () => {
+    const newNote = {
+      _id: "temporary",
+      date: date,
+      subjective: subjective,
+      objective: objective,
+      assessment: assessment,
+      plan: plan,
+    };
+    const updatedNotes = [...patient.notes, newNote];
+    setPatient((patient.notes = updatedNotes));
+    auth.currentUser.getIdToken(true).then(async function (idToken) {
+      const response = await axios.patch(
+        `/api/patients/${patient._id}`,
+        {
+          notes: updatedNotes,
+        },
+        {
+          headers: {
+            authtoken: idToken,
+          },
+        }
+      );
+    });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
     if (!date) {
-      alert("Add date of encounter");
-      return;
+      setError("Add date of encounter");
+    } else if (!subjective) {
+      setError("Add subjective");
+    } else if (!objective) {
+      setError("Add objective");
+    } else if (!assessment) {
+      setError("Add assessment");
+    } else if (!plan) {
+      setError("Add plan");
+    } else {
+      saveNewNote();
+      navigate(`/patientdetail/${patient._id}`, { state: patient });
     }
-    saveNewNote({
-      selectedPatient,
-      date,
-      subjective,
-      objective,
-      assessment,
-      plan,
-    });
-    setDate("");
-    setSubjective("");
-    setObjective("");
-    setAssessment("");
-    setPlan("");
-    toggleAddNoteForm();
   };
 
   return (
     <div className="form-container">
       <div className="form-border">
         <h3 className="form-label">
-          {selectedPatient.lastName}, {selectedPatient.firstName}
+          {patient.lastName}, {patient.firstName}
         </h3>
         <form className="my-4" onSubmit={onSubmit}>
           <div>
@@ -91,14 +119,21 @@ const AddNoteForm = ({
               onChange={(e) => setPlan(e.target.value)}
             ></textarea>
           </div>
-          <div>
-            <input
+          <div className="w-[100%]">
+            <button
               className="submit-button"
+              type="button"
+              onClick={() => navigate(-1)}
+            >
+              Cancel
+            </button>
+            <input
+              className="submit-button ml-2"
               type="submit"
               value="Finalize note"
             ></input>
-            <button onClick={() => toggleAddNoteForm()}>Cancel</button>
           </div>
+          <div className="error-message">{error}</div>
         </form>
       </div>
     </div>
