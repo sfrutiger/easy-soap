@@ -29,5 +29,5 @@ const DYNO_URL = "https://easy-soap.herokuapp.com/";
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
-  /* wakeUpDyno(DYNO_URL); */
+  wakeUpDyno(DYNO_URL);
 });
